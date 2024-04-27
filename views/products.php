@@ -13,6 +13,8 @@
 </head>
 
 <body>
+
+
     <header>
         <?php include_once  "components/navbar.php"; ?>
     </header>

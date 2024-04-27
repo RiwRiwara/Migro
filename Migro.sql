@@ -45,3 +45,8 @@ INSERT INTO Products (Name, ImageURL, Category, Unit, Price, Not_in_stock) VALUE
     ('Home Tissues', 'tissues.jpg', 'Home', 'Pack of 6', 4.49, 0),
     ('Pet-food Dog Food', 'dog_food.jpg', 'Pet-food', '1 kg', 8.99, 0),
     ('Pet-food Cat Food', 'cat_food.jpg', 'Pet-food', '500g', 5.49, 0);
+
+
+select * from Products;
+select * from Orders;
+select * from OrderDetails;
