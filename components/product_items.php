@@ -36,9 +36,31 @@ try {
 
     foreach ($products as $product) {
         $image = '/public/images/products/' . $product['ImageURL'];
+
+        $header_status = '';
+        $isInStock = true;
+
+        if ($product['Amount'] == 0) {
+            $header_status = '
+                <div class="w-full bg-red-200 text-center text-red-800 font-bold">
+                    Not In Stock
+                </div>
+            ';
+            $isInStock = false;
+        } else {
+            $header_status = '
+                <div class="w-full bg-green-200 text-center  text-green-800 font-bold">
+                    InStock
+                </div>
+            ';
+        }
+
+
         echo '
-            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-                <div>
+            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">'
+            . $header_status .
+
+            '<div>
                     <img class="p-8 rounded-md" src="' . $image . '" alt="' . $product['Name'] . ' image"  />
                 </div>
                 <div class="px-5 pb-5">
@@ -48,9 +70,24 @@ try {
                         <span class="text-gray-400 text-sm ml-2">' . $product['Unit'] . '</span>
                     </div>
                     <div>
-                        <input type="hidden" name="add_to_cart" value="' . $product['ProductID'] . '">
-                        <button onclick="addToCart(' . $product['ProductID'] . ')" type="submit" class="bg-blue-500 text-white py-2 px-4 mt-4 rounded">Add to Cart</button>
-                    </div>
+                        <p class="text-gray-400 text-sm">' . $product['Amount'] . '/10</p>
+                    </div>';
+
+        if ($isInStock) {
+            echo '
+                        <div>
+                            <input type="hidden" name="add_to_cart" value="' . $product['ProductID'] . '">
+                            <button onclick="addToCart(' . $product['ProductID'] . ')" type="submit" class="bg-blue-500 text-white py-2 px-4 mt-4 rounded">Add to Cart</button>
+                        </div>';
+        } else {
+            echo '
+                        <div>
+                            <button type="button" class="bg-gray-300 text-gray-600 py-2 px-4 mt-4 rounded cursor-not-allowed" disabled>Out of Stock</button>
+                        </div>';
+        }
+
+
+        echo  '
                 </div>
             </div>';
     }
@@ -86,7 +123,7 @@ try {
             text: 'Product added to cart',
         });
 
-        
-        
+
+
     }
 </script>

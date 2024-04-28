@@ -8,6 +8,7 @@ CREATE TABLE Products (
     Category ENUM('Frozen', 'Fresh', 'Beverage', 'Home', 'Pet-food') NOT NULL,
     Unit VARCHAR(50) NOT NULL,
     Price DECIMAL(10, 2) NOT NULL,
+	Amount INT DEFAULT 10,
     Not_in_stock BOOLEAN NOT NULL
 );
 

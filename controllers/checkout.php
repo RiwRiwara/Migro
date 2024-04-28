@@ -34,6 +34,23 @@ if ($conn->query($sql_order) === FALSE) {
             echo "Error: " . $sql_order_item . "<br>" . $conn->error;
         } else {
             $total_price += $price * $quantity;
+
+            // Update product amount
+            $sql_product = "SELECT * FROM Products WHERE ProductID = '$product_id'";
+            $result = $conn->query($sql_product);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $amount = $row['Amount'];
+                    $amount -= $quantity;
+
+                    $sql_update_product = "UPDATE Products SET Amount = '$amount' WHERE ProductID = '$product_id'";
+                    if ($conn->query($sql_update_product) === FALSE) {
+                        echo "Error: " . $sql_update_product . "<br>" . $conn->error;
+                    }
+
+                    header("Location: /order-success");
+                }
+            }
         }
     };
 }
@@ -41,8 +58,3 @@ if ($conn->query($sql_order) === FALSE) {
 
 
 $conn->close();
-
-
-
-
-header("Location: /order-success");

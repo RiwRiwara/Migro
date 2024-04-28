@@ -28,7 +28,7 @@
 
                     </div>
 
-                    <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+                    <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full" id="process-section">
                         <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
                             <p class="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
 
@@ -97,7 +97,20 @@
         var order_sum = 0.0;
 
         document.addEventListener("DOMContentLoaded", function() {
-            displayCartItems();
+            var carts = JSON.parse(localStorage.getItem('cart')) || {};
+
+            if (Object.keys(carts).length === 0) {
+                document.getElementById('cartItems').innerHTML = `
+                <div class="w-full max h-96 flex items-center justify-center">
+                    <p class="text-xl font-semibold text-gray-900 dark:text-white">No items in cart</p>
+                </div>
+                `;
+
+                document.getElementById('process-section').style.display = 'none';
+
+            } else {
+                displayCartItems();
+            }
         });
 
         async function getProductById(productId) {
@@ -251,12 +264,16 @@
             document.getElementById('subTotalShow').textContent = `$${order_sum.toFixed(2)}`;
             document.getElementById('taxShow').textContent = (order_sum * 0.07).toFixed(2);
             document.getElementById('totalShow').textContent = (order_sum + (order_sum * 0.07)).toFixed(2);
-            document.getElementById('total_price').textContent = (order_sum + (order_sum * 0.07)).toFixed(2);
+            document.getElementById('totalPrice').value = (order_sum + (order_sum * 0.07)).toFixed(2);
+
+            var cartData = localStorage.getItem('cart');
+            document.getElementById('cart-data').value = cartData;
 
 
         }
 
         function removeCartItem(productId) {
+
 
             Swal.fire({
                 title: 'Are you sure?',
